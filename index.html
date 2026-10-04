@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剪贴板管理器 | ClipboardManager</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            background:#0b101f;
+            background-image: 
+                linear-gradient(rgba(0,240,255,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,240,255,0.08) 1px, transparent 1px);
+            background-size:32px 32px;
+            color:#e5e7eb;
+            font-family:system-ui,-apple-system,sans-serif;
+            overflow-x:hidden;
+        }
+        :root{
+            --neon:#00f0ff;
+            --primary:#2563eb;
+        }
+        @keyframes glow{
+            0%{box-shadow:0 0 8px #00f0ff,0 0 15px #2563eb;}
+            100%{box-shadow:0 0 18px #00f0ff,0 0 35px #2563eb;}
+        }
+        @keyframes float{
+            0%,100%{transform:translateY(0);}
+            50%{transform:translateY(-12px);}
+        }
+        .animate-glow{animation:glow 2.5s ease-in-out infinite alternate;}
+        .animate-float{animation:float 4s ease-in-out infinite;}
+        .glass{
+            background:rgba(255,255,255,0.05);
+            backdrop-filter:blur(12px);
+            border:1px solid rgba(0,240,255,0.18);
+            border-radius:16px;
+        }
+        .text-gradient{
+            background-clip:text;
+            -webkit-background-clip:text;
+            color:transparent;
+            background-image:linear-gradient(90deg,#00f0ff,#2563eb,#7c3aed);
+        }
+        nav{
+            position:fixed;
+            width:100%;
+            top:0;
+            z-index:99;
+        }
+        .nav-inner{
+            max-width:1200px;
+            margin:0 auto;
+            padding:16px 24px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-size:20px;
+            font-weight:bold;
+            color:var(--neon);
+        }
+        .nav-links a{
+            color:#ccc;
+            margin:0 16px;
+            text-decoration:none;
+        }
+        .nav-links a:hover{color:var(--neon);}
+        .btn{
+            padding:10px 20px;
+            border-radius:8px;
+            text-decoration:none;
+        }
+        .btn-blue{
+            background:rgba(37,99,235,0.8);
+            color:white;
+        }
+        .btn-neon{
+            background:var(--neon);
+            color:#000;
+            font-weight:bold;
+        }
+        section{
+            max-width:1200px;
+            margin:0 auto;
+            padding:120px 24px 80px;
+        }
+        .hero{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:48px;
+            align-items:center;
+        }
+        h1{
+            font-size:clamp(2.4rem,5vw,4rem);
+            font-weight:800;
+            margin-bottom:24px;
+        }
+        .desc{
+            color:#d1d5db;
+            font-size:18px;
+            line-height:1.7;
+            margin-bottom:32px;
+        }
+        .feature-wrap{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:24px;
+            margin-top:48px;
+        }
+        .feature-card{
+            padding:28px;
+        }
+        .download-box{
+            max-width:700px;
+            margin:0 auto;
+            padding:48px 32px;
+            text-align:center;
+        }
+        .pwd-box{
+            margin-top:32px;
+            padding:16px;
+            background:rgba(0,0,0,0.4);
+            border-radius:8px;
+            display:inline-block;
+        }
+        footer{
+            text-align:center;
+            padding:40px;
+            color:#888;
+            font-size:14px;
+            border-top:1px solid rgba(0,240,255,0.15);
+        }
+        @media(max-width:768px){
+            .hero{grid-template-columns:1fr;}
+            .feature-wrap{grid-template-columns:1fr;}
+            .nav-links{display:none;}
+        }
+    </style>
+</head>
+<body>
+<nav class="glass">
+    <div class="nav-inner">
+        <div class="logo">
+            <span>📋</span>
+            <span>剪贴板管理器</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#feature">功能特性</a>
+            <a href="#download">立即下载</a>
+        </div>
+        <a href="#download" class="btn btn-blue animate-glow">📥下载软件</a>
+    </div>
+</nav>
+
+<section id="home">
+    <div class="hero">
+        <div class="animate-float">
+            <h1 class="text-gradient">强大剪贴板增强工具</h1>
+            <p class="desc">ClipboardManager 高效管理复制历史记录，保存文本内容，快速粘贴，提升Windows办公效率，轻量化无冗余。</p>
+            <a href="#download" class="btn btn-neon animate-glow">🪟 Windows 下载</a>
+            <div style="margin-top:32px;color:#aaa;font-size:14px;">
+                <div style="margin:8px 0;">✅ 轻量 · 无广告 · 本地存储</div>
+                <div style="margin:8px 0;">✅ 复制历史回溯、快速检索粘贴</div>
+            </div>
+        </div>
+        <div class="glass" style="padding:24px;border-radius:16px;">
+            <div style="background:rgba(0,0,0,0.6);padding:16px;border-radius:8px;">
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <span style="width:12px;height:12px;border-radius:50%;background:#ef4444;"></span>
+                    <span style="width:12px;height:12px;border-radius:50%;background:#eab308;"></span>
+                    <span style="width:12px;height:12px;border-radius:50%;background:#22c55e;"></span>
+                </div>
+                <div style="color:#00f0ff;font-family:monospace;font-size:14px;">
+&gt; ClipboardManager running...<br>
+&gt; 已捕获剪贴板记录<br>
+&gt; Total history items: 99+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="feature">
+    <div style="text-align:center;">
+        <h2 class="text-gradient" style="font-size:32px;margin-bottom:12px;">核心功能</h2>
+        <p style="color:#aaa;">专为Windows打造的剪贴板增强工具</p>
+    </div>
+    <div class="feature-wrap">
+        <div class="glass feature-card">
+            <div style="width:48px;height:48px;background:rgba(0,240,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--neon);font-size:24px;">🕒</div>
+            <h3 style="font-size:20px;margin-bottom:12px;">剪贴历史记录</h3>
+            <p style="color:#aaa;">自动保存全部复制文本，随时回溯之前复制过的内容，不怕误覆盖剪贴板。</p>
+        </div>
+        <div class="glass feature-card">
+            <div style="width:48px;height:48px;background:rgba(0,240,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--neon);font-size:24px;">🔍</div>
+            <h3 style="font-size:20px;margin-bottom:12px;">快速检索</h3>
+            <p style="color:#aaa;">关键词搜索剪贴记录，海量复制内容一秒定位，提高办公效率。</p>
+        </div>
+        <div class="glass feature-card">
+            <div style="width:48px;height:48px;background:rgba(0,240,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--neon);font-size:24px;">⚡</div>
+            <h3 style="font-size:20px;margin-bottom:12px;">轻量化占用</h3>
+            <p style="color:#aaa;">后台静默运行，极低内存CPU占用，开机自启不打扰日常使用。</p>
+        </div>
+    </div>
+</section>
+
+<section id="download">
+    <div class="glass download-box">
+        <h2 class="text-gradient" style="font-size:30px;margin-bottom:12px;">立即下载 剪贴板管理器</h2>
+        <p style="color:#ccc;margin-bottom:32px;">Windows 平台安装包，蓝奏云网盘下载</p>
+        <a target="_blank" href="https://wwaqw.lanzoue.com/ipF6L4avao1g" class="btn btn-neon animate-glow" style="font-size:18px;padding:14px 40px;">☁️ 前往网盘下载</a>
+        <div class="pwd-box">
+            <div style="color:#aaa;font-size:14px;">网盘提取密码</div>
+            <div style="color:var(--neon);font-family:monospace;font-size:24px;margin-top:4px;">tig</div>
+        </div>
+        <div style="margin-top:40px;color:#888;font-size:14px;">
+            <p>支持系统：Windows 10 / Windows11</p>
+            <p style="margin-top:6px;">下载后运行 Setup 安装包完成安装</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+© 2026 剪贴板管理器 ClipboardManager. All Rights Reserved.
+</footer>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
